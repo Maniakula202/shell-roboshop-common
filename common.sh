@@ -13,11 +13,13 @@ LOG_FILE=$LOGS_FOLDER/$SCRIPT_NAME.log
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE
 
-if [ $USER_ID -ne 0 ]; then
-    echo "Error:: Please use the root previlege to run this script" | tee -a $LOG_FILE
-    exit 1
-fi 
 
+check_root(){
+    if [ $USER_ID -ne 0 ]; then
+        echo "Error:: Please use the root previlege to run this script" | tee -a $LOG_FILE
+        exit 1
+    fi 
+}
 
 
 VALIDATE(){
