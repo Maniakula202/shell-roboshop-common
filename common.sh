@@ -68,7 +68,7 @@ app_setup(){
 }
 
 systemd_setup(){
-    cp $PRESENT_DIRECTORY/$app_name.service /etc/systemd/system/$app_name.service &>>$LOG_FILE
+    cp $PRESENT_DIRECTORY/$app_name.service /etc/systemd/system/$app_name.service
     VALIDATE $? "Copying the $app_name service"
 
     systemctl daemon-reload &>>$LOG_FILE
