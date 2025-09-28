@@ -87,13 +87,13 @@ systemd_setup(){
     systemctl daemon-reload &>>$LOG_FILE
     VALIDATE $? "Deamon reloading"
 
-    systemctl enable catalogue  &>>$LOG_FILE
-    VALIDATE $? "Enabling the catalogue services"
+    systemctl enable $app_name  &>>$LOG_FILE
+    VALIDATE $? "Enabling the $app_name services"
 
-    systemctl start catalogue &>>$LOG_FILE
-    VALIDATE $? "Startting the catalogue"
+    systemctl start $app_name &>>$LOG_FILE
+    VALIDATE $? "Startting the $app_name"
 }
 restart_setup(){
-    systemctl restart catalogue &>>$LOG_FILE
-    VALIDATE $? "Restartting the catalogue"
+    systemctl restart $app_name &>>$LOG_FILE
+    VALIDATE $? "Restartting the $app_name"
 }
