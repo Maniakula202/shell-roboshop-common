@@ -11,7 +11,7 @@ SCRIPT_NAME=$( echo $0 | cut -d "."  -f1 )
 LOG_FILE=$LOGS_FOLDER/$SCRIPT_NAME.log
 PRESENT_DIRECTORY=$PWD
 MONGODB_HOST=mongodb.manidevops.fun
-MYSQL_HOST=mysql.manidevops.fun
+
 
 mkdir -p $LOGS_FOLDER
 echo "Script started executed at: $(date)" | tee -a $LOG_FILE

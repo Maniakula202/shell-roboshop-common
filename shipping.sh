@@ -2,6 +2,8 @@
 
 source ./common.sh
 
+MYSQL_HOST=mysql.manidevops.fun
+
 app_name=shipping
 
 check_root
