@@ -62,7 +62,7 @@ app_setup(){
     unzip /tmp/$app_name.zip &>>$LOG_FILE
     VALIDATE $? "Unzinpping the code"
 
-    npm install  &>>$LOG_FILE
+    npm install
     VALIDATE $? "Installing dependencies"
 }
 
