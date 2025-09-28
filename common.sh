@@ -31,3 +31,55 @@ VALIDATE(){
     fi 
 }
 
+nodejs_setup(){
+    dnf module disable nodejs -y &>>$LOG_FILE
+    VALIDATE $? "Disabling nodejs"
+
+    dnf module enable nodejs:20 -y &>>$LOG_FILE
+    VALIDATE $? "Enabling nodejs:20"
+
+    dnf install nodejs -y &>>$LOG_FILE
+    VALIDATE $? "Installing nodejs"
+}
+
+app_setup(){
+    id roboshop &>>$LOG_FILE
+    if [ $? -ne 0 ]; then
+        useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop &>>$LOG_FILE
+        VALIDATE $? "Creating root user"
+    else
+        echo -e "User already existing.... $Y SKIPPING $N" | tee -a $LOG_FILE
+    fi
+
+    mkdir -p /app  &>>$LOG_FILE
+    VALIDATE $? "Creating app directory"
+
+    curl -o /tmp/$app_name.zip https://roboshop-artifacts.s3.amazonaws.com/$app_name-v3.zip  &>>$LOG_FILE
+    VALIDATE $? "Download code to the temp file"
+
+    cd /app 
+    rm -rf /app/*  &>>$LOG_FILE
+    unzip /tmp/$app_name.zip &>>$LOG_FILE
+    VALIDATE $? "Unzinpping the code"
+
+    npm install  &>>$LOG_FILE
+    VALIDATE $? "Installing dependencies"
+}
+
+systemd_setup(){
+    cp $PRESENT_DIRECTORY/$app_name.service /etc/systemd/system/$app_name.service &>>$LOG_FILE
+    VALIDATE $? "Copying the $app_name service"
+
+    systemctl daemon-reload &>>$LOG_FILE
+    VALIDATE $? "Deamon reloading"
+
+    systemctl enable catalogue  &>>$LOG_FILE
+    VALIDATE $? "Enabling the catalogue services"
+
+    systemctl start catalogue &>>$LOG_FILE
+    VALIDATE $? "Startting the catalogue"
+}
+restart_setup(){
+    systemctl restart catalogue &>>$LOG_FILE
+    VALIDATE $? "Restartting the catalogue"
+}
