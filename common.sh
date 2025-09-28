@@ -32,6 +32,17 @@ VALIDATE(){
     fi 
 }
 
+java_setup(){
+    dnf install maven -y &>>$LOG_FILE
+    VALIDATE $? "Intalling Maven"
+
+    mvn clean package  &>>$LOG_FILE
+    VALIDATE $? "Cleaning Maven Package"
+    
+    mv target/shipping-1.0.jar shipping.jar 
+    VALIDATE $? "Moving Maven Package"
+}
+
 nodejs_setup(){
     dnf module disable nodejs -y &>>$LOG_FILE
     VALIDATE $? "Disabling nodejs"
